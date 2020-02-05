@@ -1,0 +1,118 @@
+#include<bits/stdc++.h>
+using namespace std;
+void create() 
+{ 
+	fstream fout; 
+    fout.open("Ishil.csv", ios::out | ios::app); 
+
+	cout<<"Enter the word seaparted by commas";
+	string w1,w2,w3,w4,w5,w6;
+	for (int i = 0; i < 5; i++) { 
+
+		cin >> w1 
+			>> w2 
+			>> w3 
+			>> w4 
+			>> w5 
+			>> w6; 
+
+		
+		fout << w1 << ", "
+			<< w2 << ", "
+			<< w3 << ", "
+			<< w4 << ", "
+			<< w5 << ", "
+			<< w6 
+			<< "\n"; 
+	} 
+} 
+void print(vector<vector<char> >& arr) 
+{ 
+    // number of arrays 
+    int n = arr.size(); 
+  
+    // to keep track of next element in each of 
+    // the n arrays 
+    int* indices = new int[n]; 
+  
+    // initialize with first element's index 
+    for (int i = 0; i < n; i++) 
+        indices[i] = 0; 
+  
+    while (1) { 
+  
+        // print current combination 
+        for (int i = 0; i < n; i++) 
+            cout << arr[i][indices[i]] << " "; 
+        cout << endl; 
+  
+        // find the rightmost array that has more 
+        // elements left after the current element  
+        // in that array 
+        int next = n - 1; 
+        while (next >= 0 &&  
+              (indices[next] + 1 >= arr[next].size())) 
+            next--; 
+  
+        // no such array is found so no more  
+        // combinations left 
+        if (next < 0) 
+            return; 
+  
+        // if found move to next element in that  
+        // array 
+        indices[next]++; 
+  
+        // for all arrays to the right of this  
+        // array current index again points to  
+        // first element 
+        for (int i = next + 1; i < n; i++) 
+            indices[i] = 0; 
+    } 
+}  
+void read_record() 
+{ 
+
+	fstream fin; 
+
+	fin.open("Ishil.csv", ios::in); 
+
+	vector<string> row; 
+	string line, word, temp; 
+	vector<vector<char> > result;
+
+	while (fin >> temp) { 
+ 
+        vector<char> subResult;
+		getline(fin, line); 
+
+		stringstream s(line); 
+
+        stringstream s2(temp);
+        getline(s2,word,',');
+        row.push_back(word);
+		string tt = "";
+		while (getline(s, word, ',')) { 
+            row.push_back(word);
+            
+		}
+		for(int i=0;i<row.size();i++){
+			string ss = row[0];
+			subResult.push_back(ss[0]);
+		}
+		
+		result.push_back(subResult);
+
+
+	} 
+
+	
+	print(result);
+} 
+
+
+
+int main(){
+	read_record();
+	
+}
